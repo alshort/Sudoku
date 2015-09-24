@@ -10,6 +10,7 @@ public class Sudoku
   /*
    * Constants
    */
+  private final static int SIZE = 9;
   private final static int UNASSIGNED = 0;
   
   /*
@@ -20,26 +21,21 @@ public class Sudoku
   private int width;
   private int height;
   
-  //private Difficulty difficulty;
-  
   private boolean isSolved;
   
   /*
    * Constructors
-   */
+   */  
   public Sudoku(int[][] sudoku)
   {
-    // Hand off to specific constructor
-    this(sudoku, sudoku[0].length, sudoku.length);
-  }
-  
-  public Sudoku(int[][] sudoku, int width, int height)
-  {
+    assert(sudoku.length    == SIZE) : "Sudoku height is invalid (not equal to 9)";
+    assert(sudoku[0].length == SIZE) : "Sudoku width is invalid (not equal to 9)";
+    
     // Remember Java 2D arrays are arrays of arrays
     this.sudoku = sudoku;
     
-    this.height = height;
-    this.width  = width;
+    this.height = SIZE;
+    this.width  = SIZE;
     
     this.isSolved = false;
   }
@@ -48,15 +44,19 @@ public class Sudoku
   /*
    * Methods
    */
+  
+  /**
+   * Generates a sudoku object of standard 9x9 size.
+   * Does not handle arbitrary sizes currently (e.g. no 6x6)
+   * 
+   * @return Fully filled Sudoku of size 9x9
+   */
   public static Sudoku generate()
   {
-    return generate(9, 9);
-  }
-  
-  public static Sudoku generate(int width, int height)
-  {
-    int[][] sudoku = new int[height][width]; // Standard size for now, will abstract later
+    int[][] sudoku = new int[SIZE][SIZE];
     
+    // Defer to a recursive sub-function
+    // Sudoku passed by ref
     generateSub(sudoku);
     
     return new Sudoku(sudoku);
@@ -67,6 +67,7 @@ public class Sudoku
     Cell unassignedCell = new Cell(-1, -1);    
     Cell cell = findUnassignedLocation(sudoku);
     
+    // 
     if (cell.equals(unassignedCell))
       return true;
     else
@@ -74,7 +75,7 @@ public class Sudoku
     
     // Populate a list of options
     List<Integer> values = new ArrayList<Integer>();
-    for (int i = 1; i <= 9; i++)
+    for (int i = 1; i <= SIZE; i++)
       values.add(i);
     
     // Randomly shuffle list
@@ -84,7 +85,7 @@ public class Sudoku
     int row = unassignedCell.getX();
     int col = unassignedCell.getY();
     
-    for (int i = 1; i <= 9; i++)
+    for (int i = 1; i <= SIZE; i++)
     {
       int val = values.remove(0);
       
@@ -107,40 +108,51 @@ public class Sudoku
     return isSolved;
   }
   
-  public int[][] solve()
+  /**
+   * Solve the current sudoku (in place)
+   * @return True if sudoku could be solved, false if not
+   */
+  public boolean solve()
   {
-    if (solveSub(sudoku))
-      return sudoku;
-    
-    return new int[0][0];
+    return solveSub(sudoku);
   }
   
+  /*
+   * Recursive method to solve the sudoku
+   */
   private boolean solveSub(int[][] sud)
   {
+    // Find a random, unassignedcell
     Cell unassignedCell = new Cell(-1, -1);
     Cell cell = findUnassignedLocation(sud);
     
+    // If there isn't an unassigned cell, the sudoku is solved
     if (cell.equals(unassignedCell))
       return (isSolved = true);
     else
       unassignedCell = cell;
     
+    // Grab the coordinates
     int row = unassignedCell.getX();
     int col = unassignedCell.getY();
     
-    for (int val = 1; val <= 9; val++)
+    // Test each potential value in turn
+    for (int val = 1; val <= SIZE; val++)
     {
       if (isSafe(sud, val, row, col))
       {
         sud[row][col] = val;
         
+        // Recurse to see if value can be successfully placed
         if (solveSub(sud))
           return (isSolved = true);
         
+        // If unsuccessful, mark as unassigned and try next value
         sud[row][col] = UNASSIGNED;
       }
     }
     
+    // Could not solve given sudoku
     return false;
   }
   
@@ -195,6 +207,9 @@ public class Sudoku
     return false;
   }
   
+  /**
+   * Prints this sudoku to the System console.
+   */
   public void print()
   {
     for (int i = 0; i < this.height; i++)
