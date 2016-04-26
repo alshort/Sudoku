@@ -1,10 +1,5 @@
 package sudoku;
 
-public enum Difficulty
-{
-  BEGINNER,
-  EASY,
-  MEDIUM,
-  HARD,
-  EXPERT
+public enum Difficulty {
+  BEGINNER, EASY, MEDIUM, HARD, EXPERT
 }

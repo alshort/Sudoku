@@ -3,12 +3,12 @@ package sudoku;
 public class Cell {
 
   private int x, y;
-  
+
   public Cell(int x, int y) {
     this.x = x;
     this.y = y;
   }
-  
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -20,24 +20,30 @@ public class Cell {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+
+    if (getClass() != obj.getClass()) {
       return false;
+    }
+
     Cell other = (Cell) obj;
-    if (x != other.x)
+    if (x != other.x || y != other.y) {
       return false;
-    if (y != other.y)
-      return false;
+    }
+
     return true;
   }
 
   public int getX() {
     return x;
   }
-  
+
   public int getY() {
     return y;
   }
