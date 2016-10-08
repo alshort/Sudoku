@@ -2,7 +2,7 @@ package sudoku;
 
 public class Program {
   public static void main(String[] args) {
-    // Sudoku solving demonstration
+    /*// Sudoku solving demonstration
 
     // Random "Evil" difficulty sudoku from websudoku.com
     int[][] sudoku = { 
@@ -33,6 +33,6 @@ public class Program {
       Sudoku s = Sudoku.generate();
       s.print();
       System.out.println("-----------");
-    }
+    }*/
   }
 }

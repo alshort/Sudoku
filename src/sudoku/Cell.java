@@ -3,14 +3,17 @@ package sudoku;
 public class Cell {
 
   private int row, col;
+  private int value;
 
   
   /*
    * Constructor
    */
-  public Cell(int row, int col) {
+  public Cell(int row, int col, int value) {
     this.row = row;
     this.col = col;
+    
+    this.value = value;
   }
   
 
@@ -23,6 +26,16 @@ public class Cell {
 
   public int getColumn() {
     return col;
+  }
+  
+  public int getValue() {
+    return value;
+  }
+  
+  public void setValue(int value) {
+    assert(value >= 0 && value <= 9) : "Invalid value";
+    
+    this.value = value;
   }
 
   @Override
@@ -55,5 +68,5 @@ public class Cell {
 
     return true;
   }
-
+  
 }
