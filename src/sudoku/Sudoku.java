@@ -21,6 +21,7 @@ public class Sudoku {
   private int height;
 
   private boolean isSolved;
+  
 
   /*
    * Constructors
@@ -37,6 +38,7 @@ public class Sudoku {
 
     this.isSolved = false;
   }
+  
 
   /*
    * Methods
@@ -63,22 +65,24 @@ public class Sudoku {
     Cell cell = findUnassignedLocation(sudoku);
 
     //
-    if (cell.equals(unassignedCell))
+    if (cell.equals(unassignedCell)) {
       return true;
-    else
+    } else {
       unassignedCell = cell;
+    }
 
     // Populate a list of options
     List<Integer> values = new ArrayList<Integer>();
-    for (int i = 1; i <= SIZE; i++)
+    for (int i = 1; i <= SIZE; i++) {
       values.add(i);
+    }
 
     // Randomly shuffle list
     long seed = System.nanoTime();
     Collections.shuffle(values, new Random(seed));
 
-    int row = unassignedCell.getX();
-    int col = unassignedCell.getY();
+    int row = unassignedCell.getRow();
+    int col = unassignedCell.getColumn();
 
     for (int i = 1; i <= SIZE; i++) {
       int val = values.remove(0);
@@ -86,8 +90,9 @@ public class Sudoku {
       if (isSafe(sudoku, val, row, col)) {
         sudoku[row][col] = val;
 
-        if (generateSub(sudoku))
+        if (generateSub(sudoku)) {
           return true;
+        }
 
         sudoku[row][col] = UNASSIGNED;
       }
@@ -118,14 +123,15 @@ public class Sudoku {
     Cell cell = findUnassignedLocation(sud);
 
     // If there isn't an unassigned cell, the sudoku is solved
-    if (cell.equals(unassignedCell))
+    if (cell.equals(unassignedCell)) {
       return (isSolved = true);
-    else
+    } else {
       unassignedCell = cell;
+    }
 
     // Grab the coordinates
-    int row = unassignedCell.getX();
-    int col = unassignedCell.getY();
+    int row = unassignedCell.getRow();
+    int col = unassignedCell.getColumn();
 
     // Test each potential value in turn
     for (int val = 1; val <= SIZE; val++) {
@@ -133,8 +139,9 @@ public class Sudoku {
         sud[row][col] = val;
 
         // Recurse to see if value can be successfully placed
-        if (solveSub(sud))
+        if (solveSub(sud)) {
           return (isSolved = true);
+        }
 
         // If unsuccessful, mark as unassigned and try next value
         sud[row][col] = UNASSIGNED;
@@ -147,10 +154,13 @@ public class Sudoku {
 
   private static Cell findUnassignedLocation(int[][] sud) {
     // Returns *first* unassigned cell, going from L-to-R, up-to-down
-    for (int i = 0; i < sud.length; i++)
-      for (int j = 0; j < sud[i].length; j++)
-        if (sud[i][j] == UNASSIGNED)
+    for (int i = 0; i < sud.length; i++) {
+      for (int j = 0; j < sud[i].length; j++) {
+        if (sud[i][j] == UNASSIGNED) {
           return new Cell(i, j);
+        }
+      }
+    }
 
     return new Cell(-1, -1);
   }
@@ -165,26 +175,33 @@ public class Sudoku {
     int boxY = row - row % 3;
 
     // Go through each cell in the box to check the value isn't there already
-    for (int i = 0; i < 3; i++)
-      for (int j = 0; j < 3; j++)
-        if (sudoku[boxY + i][boxX + j] == num)
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        if (sudoku[boxY + i][boxX + j] == num) {
           return true;
+        }
+      }
+    }
 
     return false;
   }
 
   private static boolean isNumInRow(int[][] sudoku, int num, int row) {
-    for (int i = 0; i < sudoku[row].length; i++)
-      if (sudoku[row][i] == num)
+    for (int i = 0; i < sudoku[row].length; i++) {
+      if (sudoku[row][i] == num) {
         return true;
+      }
+    }
 
     return false;
   }
 
   private static boolean isNumInColumn(int[][] sudoku, int num, int col) {
-    for (int i = 0; i < sudoku.length; i++)
-      if (sudoku[i][col] == num)
+    for (int i = 0; i < sudoku.length; i++) {
+      if (sudoku[i][col] == num) {
         return true;
+      }
+    }
 
     return false;
   }
@@ -195,14 +212,16 @@ public class Sudoku {
   public void print() {
     for (int i = 0; i < this.height; i++) {
       for (int j = 0; j < this.width; j++) {
-        if (j > 0 && j % 3 == 0)
+        if (j > 0 && j % 3 == 0) {
           System.out.print(" ");
+        }
 
         System.out.print(sudoku[i][j]);
       }
 
-      if (i > 0 && i % 3 == 2)
+      if (i > 0 && i % 3 == 2) {
         System.out.println();
+      }
 
       System.out.println();
     }
