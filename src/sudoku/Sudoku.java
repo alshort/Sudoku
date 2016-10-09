@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Sudoku {
   
-  private final static int SIZE = 9;
+  private final static int SIZE = Configuration.sudokuSize;
   private final static int UNASSIGNED = 0;
   
   
