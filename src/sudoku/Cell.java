@@ -2,19 +2,48 @@ package sudoku;
 
 public class Cell {
 
-  private int x, y;
+  private int row, col;
+  private int value;
 
-  public Cell(int x, int y) {
-    this.x = x;
-    this.y = y;
+  
+  /*
+   * Constructor
+   */
+  public Cell(int row, int col, int value) {
+    this.row = row;
+    this.col = col;
+    
+    this.value = value;
+  }
+  
+
+  /*
+   * Accessors
+   */
+  public int getRow() {
+    return row;
+  }
+
+  public int getColumn() {
+    return col;
+  }
+  
+  public int getValue() {
+    return value;
+  }
+  
+  public void setValue(int value) {
+    assert(value >= 0 && value <= 9) : "Invalid value";
+    
+    this.value = value;
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + x;
-    result = prime * result + y;
+    result = prime * result + row;
+    result = prime * result + col;
     return result;
   }
 
@@ -33,18 +62,11 @@ public class Cell {
     }
 
     Cell other = (Cell) obj;
-    if (x != other.x || y != other.y) {
+    if (row != other.row || col != other.col) {
       return false;
     }
 
     return true;
   }
-
-  public int getX() {
-    return x;
-  }
-
-  public int getY() {
-    return y;
-  }
+  
 }
