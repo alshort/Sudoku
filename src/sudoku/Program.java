@@ -3,37 +3,33 @@ package sudoku;
 import java.util.Scanner;
 
 public class Program {
-  public static void main(String[] args) {
-    
+  
+  public static void main(String[] args) {    
     if (args.length == 0) {
       solveInputSudoku();
     }
     
     switch (args[0]) {
     
-    case "-help":
-    case "-h":
-      System.out.println(printHelp());
-      break;
-      
-    case "-generate":
-    case "-g":
-      Sudoku sudoku = Sudoku.generate();
-      System.out.println(sudoku.toString());
-      break;
-      
-    case "-gui":
-      // TODO: Fill out GUI code and launch window
-      break;
-      
-    case "-solve":
-    case "-s":
-      solveInputSudoku();
-      break;
-      
-    default:
-      System.out.println(printHelp());
-      break;
+      case "-help":
+      case "-h":
+        System.out.println(printHelp());
+        break;
+        
+      case "-generate":
+      case "-g":
+        Sudoku sudoku = Sudoku.generate();
+        System.out.println(sudoku.toString());
+        break;
+        
+      case "-solve":
+      case "-s":
+        solveInputSudoku();
+        break;
+        
+      default:
+        System.out.println(printHelp());
+        break;
     }
   }
   
@@ -66,7 +62,6 @@ public class Program {
     System.out.println("Solved Sudoku:");
     System.out.println(sud.toString());
   }
-  
   
   private static String printHelp() {
     StringBuilder sb = new StringBuilder();
